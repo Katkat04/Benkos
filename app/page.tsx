@@ -6,9 +6,14 @@ import Link from "next/link";
 type Recipe = {
   id: string;
   title: string;
+  autor: string;
+  tiempo_preparacion: string | null;
+  portions: string | null;
+  departament: string | null;
+  category: string | null;
   ingredients: string;
   steps: string;
-  difficulty: string;
+  dificultad: string | null;
   image_url?: string | null;
   created_at: string;
 };
@@ -67,16 +72,51 @@ export default function Home() {
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
               )}
+
               <h2 className="text-2xl font-semibold mb-1">{recipe.title}</h2>
               <p className="text-gray-700 mb-1">
-                <strong>Dificultad:</strong> {recipe.difficulty}
+                <strong>Autor:</strong> {recipe.autor}
               </p>
               <p className="text-gray-700 mb-1">
-                <strong>Ingredientes:</strong> {recipe.ingredients}
+                <strong>Tiempo de preparación:</strong>{" "}
+                {recipe.tiempo_preparacion || "N/A"}
               </p>
-              <p className="text-gray-700 mb-3">
-                <strong>Pasos:</strong> {recipe.steps}
+              <p className="text-gray-700 mb-1">
+                <strong>Porciones:</strong> {recipe.portions || "N/A"}
               </p>
+              <p className="text-gray-700 mb-1">
+                <strong>Categoría:</strong> {recipe.category || "N/A"}
+              </p>
+              <p className="text-gray-700 mb-1">
+                <strong>Departamento:</strong> {recipe.departament || "N/A"}
+              </p>
+              <p className="text-gray-700 mb-1">
+                <strong>Dificultad:</strong> {recipe.dificultad || "N/A"}
+              </p>
+
+              <div className="mb-2">
+                <strong>Ingredientes:</strong>
+                <ul className="list-disc list-inside text-gray-700">
+                  {recipe.ingredients
+                    ?.split("\n")
+                    .filter((i) => i.trim() !== "")
+                    .map((ing, idx) => (
+                      <li key={idx}>{ing}</li>
+                    ))}
+                </ul>
+              </div>
+
+              <div className="mb-4">
+                <strong>Pasos:</strong>
+                <ol className="list-decimal list-inside text-gray-700">
+                  {recipe.steps
+                    ?.split("\n")
+                    .filter((p) => p.trim() !== "")
+                    .map((step, idx) => (
+                      <li key={idx}>{step}</li>
+                    ))}
+                </ol>
+              </div>
 
               {/* 👇 Botones */}
               <div className="flex gap-3">
@@ -84,7 +124,7 @@ export default function Home() {
                   href={`/edit/${recipe.id}`}
                   className="bg-yellow-500 text-white px-4 py-1 rounded hover:bg-yellow-600 transition"
                 >
-                  ✏️ Editar
+                  Editar
                 </Link>
 
                 <button
