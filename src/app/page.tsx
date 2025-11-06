@@ -1,7 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { supabase } from "../app/lib/supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 import Link from "next/link";
+import MapaColombia from "@/src/components/map";
 
 type Recipe = {
   id: string;
@@ -110,11 +111,8 @@ export default function Home() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-            Recetas de la Costa 🍲
+            BENKO'S
           </h1>
-          <p className="text-gray-600 text-lg mb-6">
-            Sabores tradicionales del Caribe colombiano
-          </p>
           
           <Link
             href="/create"
@@ -124,6 +122,7 @@ export default function Home() {
             Agregar nueva receta
           </Link>
         </div>
+        <MapaColombia />
 
         {/* Lista de recetas */}
         {recipes.length === 0 ? (
