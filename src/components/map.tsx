@@ -92,9 +92,9 @@ const REGIONES = {
 
 type RegionKey = keyof typeof REGIONES;
 
-export default function MapaColombia() {
+export default function MapaColombia({ onRegionSelect, selectedRegion }: { onRegionSelect: (region: string | null) => void; selectedRegion: string | null; }) {
   const [hoveredDepartment, setHoveredDepartment] = useState<string | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<RegionKey | null>(null);
+  //const [selectedRegion, setSelectedRegion] = useState<RegionKey | null>(null);
 
   const getRegionFromDepartment = (departmentId: string): RegionKey | null => {
     for (const [key, region] of Object.entries(REGIONES)) {
@@ -105,11 +105,18 @@ export default function MapaColombia() {
     return null;
   };
 
-  const getDepartmentColor = (departmentId: string): string => {
+   const getDepartmentColor = (departmentId: string): string => {
     if (selectedRegion) {
-      const region = REGIONES[selectedRegion];
-      if (region.departamentos.includes(departmentId)) {
-        return region.colorHover;
+      // Buscar la región que coincida con el nombre seleccionado
+      const selectedRegionKey = Object.keys(REGIONES).find(key => 
+        REGIONES[key as RegionKey].nombre.replace('Región ', '') === selectedRegion
+      ) as RegionKey | undefined;
+      
+      if (selectedRegionKey) {
+        const region = REGIONES[selectedRegionKey];
+        if (region && region.departamentos.includes(departmentId)) {
+          return region.colorHover;
+        }
       }
       return "#E5E5E5";
     }
@@ -136,15 +143,19 @@ export default function MapaColombia() {
   const handleDepartmentClick = (departmentId: string) => {
     const region = getRegionFromDepartment(departmentId);
     if (region) {
-      setSelectedRegion(selectedRegion === region ? null : region);
+      const regionName = REGIONES[region].nombre.replace('Región ', '');
+      onRegionSelect(selectedRegion === regionName ? null : regionName);
     }
   };
 
-  const activeRegion = selectedRegion || (hoveredDepartment ? getRegionFromDepartment(hoveredDepartment) : null);
-  const activeRegionData = activeRegion ? REGIONES[activeRegion] : null;
+  const activeRegionKey = selectedRegion 
+    ? (selectedRegion.toLowerCase().replace('región ', '').replace(' ', '') as RegionKey)
+    : (hoveredDepartment ? getRegionFromDepartment(hoveredDepartment) : null);
+  
+  const activeRegionData = activeRegionKey ? REGIONES[activeRegionKey] : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 lg:p-4">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
@@ -157,13 +168,13 @@ export default function MapaColombia() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 p-6">
+          <div className="grid md:grid-cols-5 gap-6 p-6">
             {/* Mapa SVG */}
-            <div className="md:col-span-2 relative">
-              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-inner p-4">
+            <div className="md:col-span-4 relative">
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-inner">
                 <svg
-                  viewBox="0 0 593 620"
-                  className="w-full h-[900px]"
+                  viewBox="0 0 593 700"
+                  className="w-full  h-[250px] lg:h-[900px]"
                   onMouseLeave={() => !selectedRegion && setHoveredDepartment(null)}
                 >
                   <style>
@@ -413,6 +424,7 @@ export default function MapaColombia() {
                     fill={getDepartmentColor("CO-SAP")}
                     onMouseEnter={() => !selectedRegion && setHoveredDepartment("CO-SAP")}
                     onClick={() => handleDepartmentClick("CO-SAP")}
+                      transform="scale(4) translate(5, 5)" 
                     d="M0.29,4.2L0,3.94L0,1.89L0.26,1.06L0.64,0.42L1.15,0L1.6,0.19L1.2,2.44L0.73,3.48L0.41,4.17z"
                   />
                   <path
@@ -514,10 +526,10 @@ export default function MapaColombia() {
                   </div>
                 </div>
               )}
-            </div>
+            </div> 
           </div>
 
-          {/* Leyenda de regiones */}
+          {/* Leyenda de regiones 
           <div className="bg-gray-50 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4 text-center">Regiones de Colombia</h3>
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
@@ -525,8 +537,7 @@ export default function MapaColombia() {
                 <div 
                   key={key}
                   className="flex items-center gap-2 cursor-pointer hover:bg-white p-2 rounded-lg transition-colors"
-                  onClick={() => setSelectedRegion(selectedRegion === key ? null : key as RegionKey)}
-                >
+                  onClick={() => onRegionSelect(selectedRegion === region.nombre ? null : region.nombre)}                >
                   <div 
                     className="w-4 h-4 rounded-full"
                     style={{ backgroundColor: region.color }}
@@ -537,7 +548,7 @@ export default function MapaColombia() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
