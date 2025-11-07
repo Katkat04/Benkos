@@ -227,7 +227,7 @@ export default function Home() {
                   {/* Botones */}
                   <div className="flex gap-2 mt-auto pt-3 border-t border-gray-100">
                     <Link
-                      href={`/recipe/${recipe.id}`}
+                      href={`/pages/recipe/${recipe.id}`}
                       className="flex-1 bg-orange-500 text-white text-center px-4 py-2 rounded-lg hover:bg-orange-600 transition font-medium text-sm"
                     >
                       Ver más

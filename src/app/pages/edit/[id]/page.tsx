@@ -322,13 +322,12 @@ export default function EditRecipe() {
           >
             <option value="">Selecciona</option>
             {[
-              "Atlántico",
-              "Bolívar",
-              "Córdoba",
-              "Magdalena",
-              "La Guajira",
-              "Sucre",
-              "Cesar",
+              "Andina",
+              "Amazonía",
+              "Caribe",
+              "Insular",
+              "Orinoquía",
+              "Pacífico",
             ].map((dep) => (
               <option key={dep} value={dep}>
                 {dep}

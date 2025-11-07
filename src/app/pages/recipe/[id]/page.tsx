@@ -277,7 +277,7 @@ export default function RecipeDetail() {
             {/* Botones de acción */}
             <div className="mt-10 pt-8 border-t border-gray-200 flex flex-wrap gap-4 justify-center">
               <Link
-                href={`/edit/${recipe.id}`}
+                href={`/pages/edit/${recipe.id}`}
                 className="flex items-center gap-2 bg-blue-500 text-white px-6 py-3 rounded-xl hover:bg-blue-600 transition shadow-md font-semibold"
               >
                 <span>✏️</span>
