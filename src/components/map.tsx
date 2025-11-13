@@ -19,11 +19,10 @@ const DEPARTAMENTOS_NOMBRES = {
   "CO-CUN": "Cundinamarca",
   "CO-DC": "Bogotá D.C.",
   "CO-HUI": "Huila",
-  "CO-NOR": "Norte de Santander",
-  "CO-NSA": "Santander",
+  "CO-NSA": "Norte de Santander",
+  "CO-SAN": "Santander",
   "CO-QUI": "Quindío",
   "CO-RIS": "Risaralda",
-  "CO-SAN": "Santander",
   "CO-TOL": "Tolima",
   "CO-ARA": "Arauca",
   "CO-CAS": "Casanare",
@@ -84,8 +83,8 @@ const REGIONES = {
   },
   insular: {
     nombre: "Región Insular",
-    color: "#577590",
-    colorHover: "#3D5A7A",
+    color: "#000000",
+    colorHover: "#000000",
     departamentos: ["CO-SAP"],
   },
 };
@@ -107,7 +106,6 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
 
    const getDepartmentColor = (departmentId: string): string => {
     if (selectedRegion) {
-      // Buscar la región que coincida con el nombre seleccionado
       const selectedRegionKey = Object.keys(REGIONES).find(key => 
         REGIONES[key as RegionKey].nombre.replace('Región ', '') === selectedRegion
       ) as RegionKey | undefined;
@@ -155,7 +153,7 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
   const activeRegionData = activeRegionKey ? REGIONES[activeRegionKey] : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 lg:p-4">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Header */}
@@ -170,7 +168,7 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
 
           <div className="grid md:grid-cols-5 gap-6 p-6">
             {/* Mapa SVG */}
-            <div className="md:col-span-4 relative">
+            <div className="md:col-span-5 relative">
               <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl shadow-inner">
                 <svg
                   viewBox="0 0 593 700"
@@ -462,9 +460,8 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
                 </svg>
               </div>
 
-              {/* Leyenda flotante con hover */}
               {hoveredDepartment && !selectedRegion && (
-                <div className="absolute top-4 left-4 bg-white rounded-xl shadow-xl p-4 border-2 border-orange-400 animate-fadeIn">
+                <div className="absolute top-4 right-4 bg-white rounded-xl shadow-xl p-4 border-2 border-orange-400 animate-fadeIn">
                   <div className="flex items-center gap-3">
                     <div 
                       className="w-6 h-6 rounded-full"
@@ -481,9 +478,10 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
                   </div>
                 </div>
               )}
+
             </div>
 
-            {/* Panel lateral */}
+            {/* Panel lateral
             <div className="md:col-span-1">
               {activeRegionData ? (
                 <div className="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
@@ -527,6 +525,7 @@ export default function MapaColombia({ onRegionSelect, selectedRegion }: { onReg
                 </div>
               )}
             </div> 
+             */}
           </div>
 
           {/* Leyenda de regiones 

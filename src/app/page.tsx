@@ -35,24 +35,13 @@ export default async function Home() {
   const recipes = await getRecipes();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent">
-            BENKO'S
-          </h1>
-          <p className="text-gray-600 mb-4">Sabores de Colombia en cada región</p>
-          
-          <Link
-            href="/pages/create"
-            className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-3 rounded-full shadow-lg hover:bg-orange-600 hover:shadow-xl transition-all transform hover:scale-105 font-semibold"
-          >
-            <span className="text-xl">➕</span>
-            Agregar nueva receta
-          </Link>
-        </div>
-
+    <div
+      className="min-h-screen bg-fixed bg-center bg-cover py-8 px-4"
+      style={{
+        backgroundImage: "url('/fondo.jpeg')",
+      }}
+    >
+      <div className="max-w-7xl mx-auto bg-white/70 p-6 rounded-xl">
         {/* Componente del lado del cliente con mapa y recetas */}
         <RecipesList initialRecipes={recipes} />
       </div>

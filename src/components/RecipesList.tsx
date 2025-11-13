@@ -132,8 +132,9 @@ export default function RecipesList({ initialRecipes }: RecipesListProps) {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredRecipes.map((recipe) => (
-            <div
-              key={recipe.id}
+            <Link
+              href={`/pages/recipe/${recipe.id}`}
+              //key={recipe.id}
               className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col"
             >
               {/* Imagen */}
@@ -201,24 +202,18 @@ export default function RecipesList({ initialRecipes }: RecipesListProps) {
                 {/* Vista previa de ingredientes */}
                 <div className="mb-3 flex-1">
                   <h3 className="font-semibold text-gray-700 mb-2 text-sm">Ingredientes:</h3>
-                  <ul className="space-y-1 text-sm text-gray-600">
+                  <p className="text-sm text-gray-600 line-clamp-3">
                     {recipe.ingredients
                       ?.split("\n")
                       .filter((i) => i.trim() !== "")
                       .slice(0, 3)
-                      .map((ing, idx) => (
-                        <li key={idx} className="flex items-start gap-2">
-                          <span className="text-orange-500 mt-1">•</span>
-                          <span className="line-clamp-1">{ing}</span>
-                        </li>
-                      ))}
-                  </ul>
-                  {recipe.ingredients?.split("\n").filter((i) => i.trim() !== "").length > 3 && (
-                    <p className="text-xs text-gray-500 mt-1">
-                      +{recipe.ingredients.split("\n").filter((i) => i.trim() !== "").length - 3} más...
-                    </p>
-                  )}
+                      .join(", ")}
+                    {recipe.ingredients?.split("\n").filter((i) => i.trim() !== "").length > 3 && (
+                      <span className="text-xs text-gray-500">, +{recipe.ingredients.split("\n").filter((i) => i.trim() !== "").length - 3} más...</span>
+                    )}
+                  </p>
                 </div>
+
 
                 {/* Botón ver más */}
                 <div className="flex gap-2 mt-auto pt-3 border-t border-gray-100">
@@ -230,7 +225,7 @@ export default function RecipesList({ initialRecipes }: RecipesListProps) {
                   </Link>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
